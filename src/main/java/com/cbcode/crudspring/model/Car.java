@@ -1,13 +1,16 @@
 package com.cbcode.crudspring.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Car {
+@Table(name = "car")
+public class Car implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "model", nullable = false, length = 20)
     private String model;
@@ -15,7 +18,7 @@ public class Car {
     private String color;
     @Column(name = "regNumber", nullable = false, length = 10)
     private String regNumber;
-    @Column(name = "keysNumber", nullable = false, length = 5)
+    @Column(name = "keysNumber", nullable = false, length = 5, unique = true)
     private int keysNumber;
 
     public Car(String model, String color, String regNumber, int keysNumber) {

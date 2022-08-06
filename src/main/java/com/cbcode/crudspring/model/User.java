@@ -2,15 +2,17 @@ package com.cbcode.crudspring.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(name = "firstName", nullable = false, length = 20)
     private String firstName;
@@ -20,12 +22,22 @@ public class User implements Serializable {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "create_time", nullable = false)
+    private LocalDateTime createTime;
 
-    public User(String firstName, String lastName, String email, String password) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+    //role
+
+    public User(String firstName, String lastName, String email,
+                String password, LocalDateTime createTime, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.createTime = createTime;
+        this.role = role;
     }
 
     public User() {
@@ -72,6 +84,22 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,12 +108,16 @@ public class User implements Serializable {
                 && getFirstName().equals(user.getFirstName())
                 && getLastName().equals(user.getLastName())
                 && getEmail().equals(user.getEmail())
-                && getPassword().equals(user.getPassword());
+                && getPassword().equals(user.getPassword())
+                && getCreateTime().equals(user.getCreateTime())
+                && getRole().equals(user.getRole());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getFirstName(), getLastName(), getEmail(), getPassword());
+        return Objects.hash(
+                getUserId(), getFirstName(), getLastName(),
+                getEmail(), getPassword(), getCreateTime(), getRole());
     }
 
     @Override
@@ -96,6 +128,8 @@ public class User implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", createTime=" + createTime + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
