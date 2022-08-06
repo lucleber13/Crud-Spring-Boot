@@ -18,14 +18,15 @@ public class Car {
     @Column(name = "keysNumber", nullable = false, length = 5)
     private int keysNumber;
 
-    public Car() {
-    }
-
     public Car(String model, String color, String regNumber, int keysNumber) {
         this.model = model;
         this.color = color;
         this.regNumber = regNumber;
         this.keysNumber = keysNumber;
+    }
+
+    public Car() {
+
     }
 
     public long getId() {
@@ -72,7 +73,11 @@ public class Car {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Car car)) return false;
-        return getId() == car.getId() && getKeysNumber() == car.getKeysNumber() && getModel().equals(car.getModel()) && getColor().equals(car.getColor()) && getRegNumber().equals(car.getRegNumber());
+        return getId() == car.getId()
+                && getKeysNumber() == car.getKeysNumber()
+                && getModel().equals(car.getModel())
+                && getColor().equals(car.getColor())
+                && getRegNumber().equals(car.getRegNumber());
     }
 
     @Override
